@@ -40,8 +40,7 @@ function generateRandomNumber() {
 }
 
 function putOption(key, value) {
-  $w(`#button-${key}`).label = value
-  console.log(key, value);
+  $w(`#button-${key}`).label = `${value}`;
 }
 
 function generateOptions() {
@@ -52,12 +51,18 @@ function generateOptions() {
   return randomOptions;
 }
 
+function generateResult() {
+  $w("#result").text = `${generateRandomNumber()}`;
+}
+
 function generateGame() {
   const options = generateOptions();
   for (let i = 0; i < options.length; i++) {
     const element = options[i];
     putOption(i + 1, element);
   }
+
+  generateResult();
 }
 
 function handleLoadGame() {
@@ -70,8 +75,80 @@ function handleLoadGame() {
   generateGame();
 }
 
+function evaluate() {
+  const operand1 = $w("#operand-1").text;
+  const operand2 = $w("#operand-2").text;
+  const operand3 = $w("#operand-3").text;
+  const operand4 = $w("#operand-4").text;
+
+  const operation1 = $w("#operation-1").text;
+  const operation2 = $w("#operation-2").text;
+  const operation3 = $w("#operation-3").text;
+
+  if (!(operand1 && operand2 && operand3 && operand4)) {
+    return;
+  }
+
+  const equation = `${operand1} ${operation1} ${operand2} ${operation2} ${operand3} ${operation3} ${operand4}`;
+
+  const result = eval(equation);
+
+  const expectedResult = $w("#result").text;
+
+  if (`${result}` === `${expectedResult}`) {
+    $w(
+      "#result"
+    ).html = `<p style="color: lightgreen; font-size: 22px; font-weight: bold">${
+      $w("#result").text
+    }</p>`;
+  }
+}
+
+function updateOperands(value) {
+  const operand1 = $w("#operand-1");
+  const operand2 = $w("#operand-2");
+  const operand3 = $w("#operand-3");
+  const operand4 = $w("#operand-4");
+
+  if (operand1.text === "__") {
+    operand1.text = value;
+  } else if (operand2.text === "__") {
+    operand2.text = value;
+  } else if (operand3.text === "__") {
+    operand3.text = value;
+  } else if (operand4.text === "__") {
+    operand4.text = value;
+  }
+}
+
+function handleClickOption(key) {
+  const button = $w(`#button-${key}`);
+  updateOperands(button.label);
+  evaluate();
+}
+
+function setupButtonPressHandler() {
+  for (let i = 0; i < Array(16).length; i++) {
+    $w(`#button-${i + 1}`).onClick(() => handleClickOption(i + 1));
+  }
+}
+
+function handleReset() {
+  const operand1 = $w("#operand-1");
+  const operand2 = $w("#operand-2");
+  const operand3 = $w("#operand-3");
+  const operand4 = $w("#operand-4");
+
+  operand1.text = "__";
+  operand2.text = "__";
+  operand3.text = "__";
+  operand4.text = "__";
+}
+
 $w.onReady(function () {
   $w("#play-btn").onClick(handleClickPlayBtn);
   $w("#close-game-btn").onClick(handleCloseGame);
   $w("#load-game-btn").onClick(handleLoadGame);
+  setupButtonPressHandler();
+  $w("#reset-btn").onClick(handleReset);
 });
