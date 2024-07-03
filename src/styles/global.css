@@ -1,0 +1,22 @@
+/* CSS reference: https://www.wix.com/velo/reference/$w/styling-elements-with-css */
+
+/* These CSS styles will be applied globally to every page of this site. Write your CSS here, e.g.: */
+
+/*  Change button background color to red: */
+/* .button {
+    background-color: red;
+} */
+
+#play-btn {
+  z-index: 1000;
+}
+
+#game-box {
+  z-index: 100;
+}
+
+#operand-1,
+#operand-2,
+#operand-3 {
+  border-bottom: 2px solid #000000;
+}
