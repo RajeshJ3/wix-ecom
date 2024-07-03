@@ -98,9 +98,7 @@ function evaluate() {
   if (`${result}` === `${expectedResult}`) {
     $w(
       "#result"
-    ).html = `<p style="color: lightgreen; font-size: 22px; font-weight: bold">${
-      $w("#result").text
-    }</p>`;
+    ).html = `<h2 class="font_2 wixui-rich-text__text"><span class="wixui-rich-text__text" style="color: lightgreen">${$w("#result").text}</span></h2>`
   }
 }
 
