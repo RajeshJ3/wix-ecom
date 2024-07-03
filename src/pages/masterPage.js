@@ -1,3 +1,36 @@
+import { generateCoupon } from "backend/game.web";
+
+function handleGameSuccessful() {
+  generateCoupon()
+    .then((coupon) => {
+      const code = coupon.specification.code;
+      $w("#game-container").hide();
+      $w("#coupon-code").text = code;
+      $w("#winner-screen").show();
+    })
+    .catch((err) => {
+      console.log("[COUPONS_ERROR]", err);
+    });
+}
+
+function handleReset() {
+  const operand1 = $w("#operand-1");
+  const operand2 = $w("#operand-2");
+  const operand3 = $w("#operand-3");
+  const operand4 = $w("#operand-4");
+
+  operand1.text = "__";
+  operand2.text = "__";
+  operand3.text = "__";
+  operand4.text = "__";
+
+  $w(
+    "#result"
+  ).html = `<h2 class="font_2 wixui-rich-text__text"><span class="wixui-rich-text__text">${
+    $w("#result").text
+  }</span></h2>`;
+}
+
 function handleClickPlayBtn() {
   const playButton = $w("#play-btn");
   playButton.hide();
@@ -18,6 +51,8 @@ function handleCloseGame() {
 
   const gameContainer = $w("#game-container");
   gameContainer.hide();
+
+  handleReset();
 }
 
 function generateRandomNumber() {
@@ -98,7 +133,10 @@ function evaluate() {
   if (`${result}` === `${expectedResult}`) {
     $w(
       "#result"
-    ).html = `<h2 class="font_2 wixui-rich-text__text"><span class="wixui-rich-text__text" style="color: lightgreen">${$w("#result").text}</span></h2>`
+    ).html = `<h2 class="font_2 wixui-rich-text__text"><span class="wixui-rich-text__text" style="color: lightgreen">${
+      $w("#result").text
+    }</span></h2>`;
+    handleGameSuccessful();
   }
 }
 
@@ -131,22 +169,12 @@ function setupButtonPressHandler() {
   }
 }
 
-function handleReset() {
-  const operand1 = $w("#operand-1");
-  const operand2 = $w("#operand-2");
-  const operand3 = $w("#operand-3");
-  const operand4 = $w("#operand-4");
-
-  operand1.text = "__";
-  operand2.text = "__";
-  operand3.text = "__";
-  operand4.text = "__";
-}
-
 $w.onReady(function () {
   $w("#play-btn").onClick(handleClickPlayBtn);
   $w("#close-game-btn").onClick(handleCloseGame);
   $w("#load-game-btn").onClick(handleLoadGame);
   setupButtonPressHandler();
   $w("#reset-btn").onClick(handleReset);
+
+  $w("#create-coupon-btn").onClick(getCoupon);
 });
