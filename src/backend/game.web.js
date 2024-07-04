@@ -24,7 +24,7 @@ export const generateCoupon = webMethod(Permissions.Anyone, async () => {
     expirationTime: `${nowTs + 86400000}`, // expire in 24 hours
     usageLimit: 1,
     limitPerCustomer: 1,
-    limitedToOneItem: true,
+    limitedToOneItem: false,
     appliesToSubscriptions: false,
     active: true,
     scope: {
