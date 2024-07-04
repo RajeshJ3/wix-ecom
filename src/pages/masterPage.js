@@ -1,5 +1,6 @@
 import { generateCoupon } from "backend/game.web";
 
+
 function handleGameSuccessful() {
   generateCoupon()
     .then((coupon) => {
@@ -166,8 +167,7 @@ $w.onReady(function () {
   $w("#play-btn").onClick(handleClickPlayBtn);
   $w("#close-game-btn").onClick(handleCloseGame);
   $w("#load-game-btn").onClick(handleLoadGame);
-  setupButtonPressHandler();
   $w("#reset-btn").onClick(handleReset);
 
-  $w("#create-coupon-btn").onClick(handleGameSuccessful);
+  setupButtonPressHandler();
 });

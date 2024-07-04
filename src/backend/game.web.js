@@ -12,28 +12,28 @@ function createRandomString(length) {
 }
 
 const elevatedGetCoupon = elevate(coupons.getCoupon);
+const elevatedcreateCoupon = elevate(coupons.createCoupon);
 
 export const generateCoupon = webMethod(Permissions.Anyone, async () => {
   const nowTs = Date.now();
 
-    let specification = {
-      name: "20% OFF for Game Winner",
-      code: `WINNER${createRandomString(6)}20`,
-      startTime: `${nowTs}`,
-      expirationTime: `${nowTs + 86400000}`, // expire in 24 hours
-      usageLimit: 1,
-      limitPerCustomer: 1,
-      limitedToOneItem: true,
-      appliesToSubscriptions: false,
-      active: true,
-      scope: {
-        namespace: "stores",
-      },
-      percentOffRate: 20,
-    };
+  let specification = {
+    name: "20% OFF for Game Winner",
+    code: `WINNER${createRandomString(6)}20`,
+    startTime: `${nowTs}`,
+    expirationTime: `${nowTs + 86400000}`, // expire in 24 hours
+    usageLimit: 1,
+    limitPerCustomer: 1,
+    limitedToOneItem: true,
+    appliesToSubscriptions: false,
+    active: true,
+    scope: {
+      namespace: "stores",
+    },
+    percentOffRate: 20,
+  };
 
-    const coupon = await coupons.createCoupon(specification);
-    const _id = coupon._id;
-  // const _id = "12959772-430e-4b67-9ac5-8ed2b0114741";
+  const coupon = await elevatedcreateCoupon(specification);
+  const _id = coupon._id;
   return await elevatedGetCoupon(_id);
 });
