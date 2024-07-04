@@ -17,12 +17,10 @@ function handleReset() {
   const operand1 = $w("#operand-1");
   const operand2 = $w("#operand-2");
   const operand3 = $w("#operand-3");
-  const operand4 = $w("#operand-4");
 
   operand1.text = "__";
   operand2.text = "__";
   operand3.text = "__";
-  operand4.text = "__";
 
   $w(
     "#result"
@@ -114,17 +112,15 @@ function evaluate() {
   const operand1 = $w("#operand-1").text;
   const operand2 = $w("#operand-2").text;
   const operand3 = $w("#operand-3").text;
-  const operand4 = $w("#operand-4").text;
 
   const operation1 = $w("#operation-1").text;
   const operation2 = $w("#operation-2").text;
-  const operation3 = $w("#operation-3").text;
 
-  if (!(operand1 && operand2 && operand3 && operand4)) {
+  if (!(operand1 && operand2 && operand3)) {
     return;
   }
 
-  const equation = `${operand1} ${operation1} ${operand2} ${operation2} ${operand3} ${operation3} ${operand4}`;
+  const equation = `${operand1} ${operation1} ${operand2} ${operation2} ${operand3}`;
 
   const result = eval(equation);
 
@@ -144,7 +140,6 @@ function updateOperands(value) {
   const operand1 = $w("#operand-1");
   const operand2 = $w("#operand-2");
   const operand3 = $w("#operand-3");
-  const operand4 = $w("#operand-4");
 
   if (operand1.text === "__") {
     operand1.text = value;
@@ -152,8 +147,6 @@ function updateOperands(value) {
     operand2.text = value;
   } else if (operand3.text === "__") {
     operand3.text = value;
-  } else if (operand4.text === "__") {
-    operand4.text = value;
   }
 }
 
@@ -176,5 +169,5 @@ $w.onReady(function () {
   setupButtonPressHandler();
   $w("#reset-btn").onClick(handleReset);
 
-  $w("#create-coupon-btn").onClick(getCoupon);
+  $w("#create-coupon-btn").onClick(handleGameSuccessful);
 });
